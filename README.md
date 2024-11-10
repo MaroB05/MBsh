@@ -5,8 +5,8 @@ A simple shell implementation in C.
 ### Features
 
 * Reads input from stdin or files
-* Executes commands using `fork` and `execlp`
-* Supports basic command-line interaction (no arguments yet)
+* Executes commands using `fork` and `execvp`
+* Supports basic command-line interaction
 
 ### Build and Run
 
@@ -30,6 +30,6 @@ make compile
 
 ### Known Limitations
 
-* Currently only supports a limited set of commands
+* Currently doesn't support internal commands (e.x. `exit`)
 * Error handling is minimal
 
