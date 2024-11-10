@@ -48,7 +48,6 @@ void process_input(char *buffer, size_t size, FILE* stream){
     pid = fork();
     if (pid == 0){
       char* p = strtok(strdup(buffer), " "); 
-      // execlp(p, p, NULL);
       execvp(p, parse_args(buffer));
       perror("command failed!\n");
     }
