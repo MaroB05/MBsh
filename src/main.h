@@ -5,7 +5,7 @@
 #include <sys/wait.h>
 #include "../utils/functions.h"
 
-ssize_t take_input(char **buffer, size_t *size, FILE* stream);
-void process_input(char *buffer, size_t size, FILE* stream);
-char **parse_args(char *command);
+ssize_t take_input(char** buffer, size_t* size, FILE* stream);
+void process_input(char* buffer, size_t size, FILE* stream);
+char **parse_args(char** dest, char* command);
 

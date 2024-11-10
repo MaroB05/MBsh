@@ -7,7 +7,8 @@ int main(int argc, char* argv[]){
   size_t size = 100;
   char *buffer = malloc(size);
   FILE *stream = stdin;
-  char **args = (char **)malloc(sizeof(char*) * 100);
+  // char **args = (char **)malloc(sizeof(char*) * 100);
+  char **args;
   int k;
     
   for(int i = 0; i < argc; i++){
@@ -16,7 +17,7 @@ int main(int argc, char* argv[]){
     take_input(&buffer, &size, stream);
     process_input(buffer, size, stream);
 
-    args = parse_args(buffer);
+    parse_args(args, buffer);
     printf("buffer: %s\n", buffer);
     for (int j = 0; args[j]; j++){
       printf("%s ", args[j]);
@@ -26,7 +27,9 @@ int main(int argc, char* argv[]){
 
     fclose(stream);
     i++;
+    free(args);
   }
+  free(buffer);
   return 0;
 }
 
@@ -48,7 +51,7 @@ void process_input(char *buffer, size_t size, FILE* stream){
     pid = fork();
     if (pid == 0){
       char* p = strtok(strdup(buffer), " "); 
-      execvp(p, parse_args(buffer));
+      execvp(p, parse_args(NULL, buffer));
       perror("command failed!\n");
     }
     else{
@@ -58,16 +61,15 @@ void process_input(char *buffer, size_t size, FILE* stream){
   }
 }
 
-//TODO: check for the case of having spaces inside one argument ex: cat "my file"
-
-char **parse_args(char *command){
+char **parse_args(char** dest, char *command){
   int k = 0;
   int c = 0;
   char **args = split_str(command, "\"", &k);
-  char **temp = malloc(100 * sizeof(char*));
+  char **temp = (char**)malloc(100 * sizeof(char*));
+  char **t;
 
   for (int i = 0; args[i]; i++){
-    char **t = split_str(args[i], " ", &k);
+    t = split_str(args[i], " ", &k);
     memmove(temp+c, t, k * sizeof(char*));
     c += k;
     i++;
@@ -75,8 +77,9 @@ char **parse_args(char *command){
       memmove(temp+c, args+i, sizeof(char*));
       c++;
     }
+    free(t);
   }
-
-  return temp;  
+  free(args);
+  return temp;
 }
 

@@ -89,9 +89,8 @@ char **split_str(char* s, const char *delim, int *k){
   int i = 0;
   while(token != NULL){
     args[i] = token;
-    token = strtok(NULL, delim);
-    // printf("%s\n", args[i]);
     i++;
+    token = strtok(NULL, delim);
   }
   args[i] = NULL;
   if (k) *k = i;
