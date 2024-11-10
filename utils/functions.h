@@ -12,6 +12,8 @@ FILE *openFile(char* filename, char* mode, char* err_msg);
 
 char *slice(const char* s, const uint start, const uint end);
 char *slice_delim(const char* s, const uint start, const char *delim);
+char **split_str(char* s, const char *delim, int *k);
+char **split_stric(char* s, const char *delim, char *ignored, int *k);
 int find(const char* target, const char* text);
 size_t count(const char* s, const char delim);
 
@@ -20,8 +22,6 @@ size_t count(const char* s, const char delim);
 size_t getchars(char* const buffer, const size_t n, FILE *f); 
 size_t getlines(char * const buffer, const size_t n, FILE *f, size_t *const lines);
 
-/* --------------------Custom Strings------------------------*/
-struct myString{
-  char *s;
-  int len;
-};
+
+
+

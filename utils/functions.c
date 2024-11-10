@@ -64,4 +64,36 @@ size_t getlines(char * const buffer, const size_t n, FILE *f, size_t *const line
   return c;
 }
 
+char **split_stric(char* s, const char *delim, char *ignored, int *k){
+  char **args = (char**)malloc(sizeof(char*) * 100);
+  char *token = strtok(strdup(s), delim);
+  int i = 0;
+  int ignored_count = 0;
+  while(token != NULL){
+    args[i] = token;
+    token = strtok(NULL, delim);
+    if (find(args[i], ignored) != -1) ignored_count++;
+    if (ignored_count % 2) strcat(args[i], token);
+    // printf("%s\n", args[i]);
+    i++;
+  }
+  args[i] = NULL;
+  *k = i;
+  return args;
+}
 
+
+char **split_str(char* s, const char *delim, int *k){
+  char **args = (char**)malloc(sizeof(char*) * 100);
+  char *token = strtok(strdup(s), delim);
+  int i = 0;
+  while(token != NULL){
+    args[i] = token;
+    token = strtok(NULL, delim);
+    // printf("%s\n", args[i]);
+    i++;
+  }
+  args[i] = NULL;
+  if (k) *k = i;
+  return args;
+}

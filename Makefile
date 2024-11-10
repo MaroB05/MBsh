@@ -11,4 +11,4 @@ clean:
 	rm *.o
 
 run:
-	./src/MBsh.out
+	./build/MBsh.out
