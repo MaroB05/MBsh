@@ -1,10 +1,10 @@
 #include <stdio.h>
 
+
 FILE *openFile(char* filename, char* mode, char* err_msg);
 
 size_t getchars(char* const buffer, const size_t n, FILE *f); 
 size_t getlines(char * const buffer, const size_t n, FILE *f, size_t *const lines);
-
 
 
 
@@ -21,8 +21,8 @@ FILE *openFile(char* filename, char* mode, char* err_msg){
 
 
 size_t getchars(char* const buffer, const size_t n, FILE *f){
-  size_t c = fread(buffer, 1, n, f);
-  buffer[c-1] = '\0';
+  size_t c = fread(buffer, 1, n-1, f);
+  buffer[c] = '\0';
   return c;
 }
 

@@ -14,7 +14,6 @@ size_t count(const char* s, const char delim);
 
 
 
-
 char *slice(const char* s, const uint start, const uint end){
   char *buffer = (char *)malloc(end - start);
   memcpy(buffer, s + start, end - start);

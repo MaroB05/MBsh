@@ -19,9 +19,8 @@ int main(int argc, char* argv[]){
 
     parse_args(args, buffer);
     printf("buffer: %s\n", buffer);
-    for (int j = 0; args[j]; j++){
+    for (int j = 0; args[j]; j++)
       printf("%s ", args[j]);
-    }
 
     printf("\n");
 
