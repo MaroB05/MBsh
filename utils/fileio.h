@@ -1,36 +1,35 @@
 #include <stdio.h>
 
 
-FILE *openFile(char* filename, char* mode, char* err_msg);
+FILE *openFile(const char filename[], const char mode[], char* err_msg);      // Opens a file with the path "filename" in mode "mode" and prints err_msg
 
-size_t getchars(char* const buffer, const size_t n, FILE *f); 
-size_t getlines(char * const buffer, const size_t n, FILE *f, size_t *const lines);
+size_t getchars(char buffer[], const size_t n, FILE stream[]);   // gets characters from a stream, untill it either fills the buffer or reaches EOF token in stream
+size_t getlines(char buffer[], const size_t n, FILE stream[], size_t lines[]); // continuously loads lines from a stream, untill it either fills the buffer or reaches EOF 
 
 
+FILE *openFile(const char filename[], const char mode[], char* err_msg){
+  FILE* stream = fopen(filename, mode);
 
-FILE *openFile(char* filename, char* mode, char* err_msg){
-  FILE* f = fopen(filename, mode);
-
-  if(!f){
-    printf("%s", err_msg);
+  if(!stream){
+    if (!err_msg) err_msg = "Error opening file\n";
+    perror(err_msg);
     return NULL;
   }
-  return f;
+  return stream;
 }
 
 
-
-size_t getchars(char* const buffer, const size_t n, FILE *f){
-  size_t c = fread(buffer, 1, n-1, f);
+size_t getchars(char buffer[], const size_t n, FILE stream[]){
+  size_t c = fread(buffer, 1, n-1, stream);
   buffer[c] = '\0';
   return c;
 }
 
-size_t getlines(char * const buffer, const size_t n, FILE *f, size_t *const lines){
+size_t getlines(char buffer[], const size_t n, FILE stream[], size_t lines[]){
   size_t c = 0;
   size_t l = 0;
   for (; c < n-1; c++){
-    buffer[c] = fgetc(f);
+    buffer[c] = fgetc(stream);
     if(buffer[c] == '\n') {
       l++;
     }
