@@ -11,6 +11,8 @@ char **split_stric(char* s, const char *delim, char *ignored, int *k);
 int find(const char* target, const char* text);
 size_t count(const char* s, const char delim);
 
+bool str_found(char** haystack, char needle[]);
+
 
 
 
@@ -75,4 +77,10 @@ char **split_str(char* s, const char *delim, int *k){
   return args;
 }
 
-
+bool str_found(char** haystack, char needle[]){
+  for (int i = 0; haystack[i]; i++){
+    if (strcmp(haystack[i], needle) == 0)
+      return 1;
+  }
+  return 0;
+}
