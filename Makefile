@@ -1,6 +1,6 @@
 compile:
-	gcc src/main.c -c #utils/*.h -c 
-	gcc *.o -o ./build/MBsh.out
+	mkdir -p build
+	gcc src/main.c -o build/MBsh.out
 
 debug:
 	gcc src/main.c utils/*.c -c 
