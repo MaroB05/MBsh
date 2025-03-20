@@ -57,16 +57,19 @@ or
 - MBsh reads user input and splits it into the program name and arguments.
 - Basic error checks are applied, such as handling empty input.
 
-### Step 2: Forking and Execution
-- MBsh uses `fork()` to create a new process for executing the program.
+### Step 2: Specify command type:
+- Based on the given command, MBsh classifies if the command is either internal or external.
+
+### Step 3: Forking and Execution
+- MBsh uses `fork()` to create a new process for executing the program in case of an external command.
 - In the child process, `execvp()` is called to run the specified program with arguments.
 
-### Step 3: Error Handling and Continuation
+### Step 4: Error Handling and Continuation
 - Minimal error handling is in place for unrecognized commands or argument errors.
 - MBsh continues prompting for new commands unless terminated.
 ## Known Issues and Limitations
 
-- **No Internal Commands:** Commands like `cd` and `exit` are not supported as internal shell commands.
+- **Limited Internal Commands:** only implemented `cd` and `exit` as internal shell commands.
 - **Limited Error Feedback:** Error handling is minimal, providing basic feedback on invalid commands.
 - **No Redirection or Piping:** Features like input/output redirection and piping are not implemented.
 
