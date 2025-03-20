@@ -53,12 +53,14 @@ void process_input(char *buffer, size_t size, FILE* stream){
     args = parse_args(NULL, buffer);
     cmd_num = find_internal_cmd(cmd);
     if (cmd_num != -1){
-      terminal_commands[cmd_num].cmd_f(args);
+      exec_internal_cmd(cmd_num, args);
+      // terminal_commands[cmd_num].cmd_f(args);
     } else {
       pid = fork();
       if (pid == 0){
         execvp(cmd, args);
         perror("command failed");
+        exit(-1);
       }
       else{
         wait(NULL);
@@ -98,6 +100,6 @@ int find_internal_cmd(char cmd[]){
   return -1;
 }
 
-void internal_cmd(int cmd_num, char* args[]){
-  
+void exec_internal_cmd(int cmd_num, char* args[]){
+  terminal_commands[cmd_num].cmd_f(args);
 }
