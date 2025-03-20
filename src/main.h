@@ -1,4 +1,12 @@
-#include "commands.h"
+#include <stdio.h>
+#include <errno.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <sys/wait.h>
+#include "../utils/fileio.h"
+#include "../utils/mstrings.h"
 
 struct internal_command{
   const char* cmd;

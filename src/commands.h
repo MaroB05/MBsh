@@ -1,21 +1,24 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-#include <sys/wait.h>
-#include "../utils/fileio.h"
-#include "../utils/mstrings.h"
+#include "main.h"
+
+char* path;
+int path_size = 100;
 
 int cd_(char* args[]);
 int exit_(char* args[]);
 
+
+const struct internal_command terminal_commands[] = {
+  {"cd", cd_},
+  {"exit", exit_},
+  {"", NULL},
+};
 
 int cd_(char* args[]){
   if (chdir(args[1]) == -1){
     perror("cd");
     return -1;
   }
+  update_path(&path);
   return 0;
 }
 
