@@ -1,6 +1,6 @@
 #include "main.h"
 
-char* path;
+char* current_working_dir;
 int path_size = 100;
 
 int cd_(char* args[]);
@@ -18,7 +18,7 @@ int cd_(char* args[]){
     perror("cd");
     return -1;
   }
-  update_path(&path);
+  update_cwd(&current_working_dir);
   return 0;
 }
 

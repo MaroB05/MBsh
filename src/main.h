@@ -19,8 +19,4 @@ void process_input(char* buffer, size_t size, FILE* stream);
 char **parse_args(char** dest, char* command);
 int find_internal_cmd(char cmd[]);
 void exec_internal_cmd(int cmd_num, char* args[]);
-const struct internal_command terminal_commands[] = {
-  {"cd", cd_},
-  {"exit", exit_},
-  {"", NULL},
-};
+void update_cwd(char** path_buffer);

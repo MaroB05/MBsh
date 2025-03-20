@@ -8,6 +8,8 @@ int main(int argc, char* argv[]){
   // char **args = (char **)malloc(sizeof(char*) * 100);
   char **args;
   int k;
+  current_working_dir = (char *) malloc(path_size);
+  update_cwd(&current_working_dir);
     
   for(int i = 0; i < argc; i++){
     if (argc > 1)
@@ -31,10 +33,9 @@ int main(int argc, char* argv[]){
 }
 
 
-
 ssize_t take_input(char **buffer, size_t *size, FILE* stream){
   if(stream == stdin)
-    printf("MBsh> ");
+    printf("|MBsh|%s> ", current_working_dir);
   ssize_t c = getline(buffer, size, stream);
   (*buffer)[c-1] = '\0';
   return c;
@@ -52,7 +53,6 @@ void process_input(char *buffer, size_t size, FILE* stream){
     cmd_num = find_internal_cmd(cmd);
     if (cmd_num != -1){
       exec_internal_cmd(cmd_num, args);
-      // terminal_commands[cmd_num].cmd_f(args);
     } else {
       pid = fork();
       if (pid == 0){
@@ -100,4 +100,17 @@ int find_internal_cmd(char cmd[]){
 
 void exec_internal_cmd(int cmd_num, char* args[]){
   terminal_commands[cmd_num].cmd_f(args);
+}
+
+void update_cwd(char** path_buffer){
+  char* old_buff = *path_buffer;
+
+  while(!getcwd(*path_buffer, path_size)){
+    if (errno == ERANGE){
+      path_size *= 2;
+      *path_buffer = (char *) realloc(*path_buffer, path_size);
+      if (old_buff != *path_buffer)
+        free(old_buff);
+    }
+  }
 }
