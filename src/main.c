@@ -45,16 +45,24 @@ ssize_t take_input(char **buffer, size_t *size, FILE* stream){
 void process_input(char *buffer, size_t size, FILE* stream){
   ssize_t s = 0;
   pid_t pid;
-
+  int cmd_num, ret_val;
+  char* cmd = NULL;
+  char** args = NULL;
   while(s != -1){
-    pid = fork();
-    if (pid == 0){
-      char* p = strtok(strdup(buffer), " "); 
-      execvp(p, parse_args(NULL, buffer));
-      perror("command failed!\n");
-    }
-    else{
-      wait(NULL);
+    cmd = strtok(strdup(buffer), " "); 
+    args = parse_args(NULL, buffer);
+    cmd_num = find_internal_cmd(cmd);
+    if (cmd_num != -1){
+      terminal_commands[cmd_num].cmd_f(args);
+    } else {
+      pid = fork();
+      if (pid == 0){
+        execvp(cmd, args);
+        perror("command failed");
+      }
+      else{
+        wait(NULL);
+      }
     }
     s = take_input(&buffer, &size, stream);
   }
@@ -82,3 +90,14 @@ char **parse_args(char** dest, char *command){
   return temp;
 }
 
+int find_internal_cmd(char cmd[]){
+  for (int i = 0; terminal_commands[i].cmd_f != NULL; i++){
+    if (!strcmp(terminal_commands[i].cmd, cmd))
+      return i;
+  }
+  return -1;
+}
+
+void internal_cmd(int cmd_num, char* args[]){
+  
+}
