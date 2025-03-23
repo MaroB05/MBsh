@@ -36,7 +36,7 @@ int main(int argc, char* argv[]){
 ssize_t take_input(char **buffer, size_t *size, FILE* stream){
   if(stream == stdin)
     printf("|MBsh|%s> ", current_working_dir);
-  ssize_t c = getline(buffer, size, stream);
+  ssize_t c = getline(buffer, size, stream); //could lead to memory leaks TODO: implement a safe getline
   (*buffer)[c-1] = '\0';
   return c;
 }
@@ -54,15 +54,7 @@ void process_input(char *buffer, size_t size, FILE* stream){
     if (cmd_num != -1){
       exec_internal_cmd(cmd_num, args);
     } else {
-      pid = fork();
-      if (pid == 0){
-        execvp(cmd, args);
-        perror("command failed");
-        exit(-1);
-      }
-      else{
-        wait(NULL);
-      }
+      exec_external_cmd(cmd, args);
     }
     s = take_input(&buffer, &size, stream);
   }
@@ -112,5 +104,18 @@ void update_cwd(char** path_buffer){
       if (old_buff != *path_buffer)
         free(old_buff);
     }
+  }
+}
+
+void exec_external_cmd(char* cmd, char** args){
+  int pid;
+  pid = fork();
+  if (pid == 0){
+    execvp(cmd, args);
+    perror("command failed");
+    exit(-1);
+  }
+  else{
+    wait(NULL);
   }
 }

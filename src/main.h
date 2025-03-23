@@ -20,3 +20,4 @@ char **parse_args(char** dest, char* command);
 int find_internal_cmd(char cmd[]);
 void exec_internal_cmd(int cmd_num, char* args[]);
 void update_cwd(char** path_buffer);
+void exec_external_cmd(char* cmd, char** args);
