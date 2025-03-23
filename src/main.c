@@ -83,6 +83,8 @@ char **parse_args(char** dest, char *command){
 }
 
 int find_internal_cmd(char cmd[]){
+  if (!cmd)
+    return -1;
   for (int i = 0; terminal_commands[i].cmd_f != NULL; i++){
     if (!strcmp(terminal_commands[i].cmd, cmd))
       return i;
