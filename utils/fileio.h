@@ -1,35 +1,39 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 
-FILE *openFile(const char filename[], const char mode[], char* err_msg);      // Opens a file with the path "filename" in mode "mode" and prints err_msg
+FILE *openFile(char* filename, char mode[], char* err_msg);
 
-size_t getchars(char buffer[], const size_t n, FILE stream[]);   // gets characters from a stream, untill it either fills the buffer or reaches EOF token in stream
-size_t getlines(char buffer[], const size_t n, FILE stream[], size_t lines[]); // continuously loads lines from a stream, untill it either fills the buffer or reaches EOF 
+size_t getchars(char* const buffer, const size_t n, FILE* stream); 
+size_t getlines(char* const buffer, const size_t n, FILE* stream, size_t *const lines);
+size_t s_getline(char** const buffer, size_t *n, FILE* stream);
 
 
-FILE *openFile(const char filename[], const char mode[], char* err_msg){
-  FILE* stream = fopen(filename, mode);
+FILE *openFile(char* filename, char* mode, char* err_msg){
+  FILE* f = fopen(filename, mode);
 
-  if(!stream){
+  if(!f){
     if (!err_msg) err_msg = "Error opening file\n";
-    perror(err_msg);
+    printf("%s", err_msg);
     return NULL;
   }
-  return stream;
+  return f;
 }
 
 
-size_t getchars(char buffer[], const size_t n, FILE stream[]){
-  size_t c = fread(buffer, 1, n-1, stream);
+
+size_t getchars(char* const buffer, const size_t n, FILE *f){
+  size_t c = fread(buffer, 1, n-1, f);
   buffer[c] = '\0';
   return c;
 }
 
-size_t getlines(char buffer[], const size_t n, FILE stream[], size_t lines[]){
+size_t getlines(char * const buffer, const size_t n, FILE *f, size_t *const lines){
   size_t c = 0;
   size_t l = 0;
   for (; c < n-1; c++){
-    buffer[c] = fgetc(stream);
+    buffer[c] = fgetc(f);
     if(buffer[c] == '\n') {
       l++;
     }
@@ -39,3 +43,12 @@ size_t getlines(char buffer[], const size_t n, FILE stream[], size_t lines[]){
   if (lines) *lines += l-1;
   return c;
 }
+
+size_t s_getline(char** const buffer, size_t* const n, FILE* stream){
+  char* old_buffer = *buffer;
+  size_t c = getline(buffer, n, stream);
+  if (old_buffer && old_buffer != *buffer)
+    free(old_buffer);
+  return c;
+}
+

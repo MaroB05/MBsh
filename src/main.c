@@ -35,7 +35,7 @@ int main(int argc, char* argv[]){
 ssize_t take_input(char **buffer, size_t *size, FILE* stream){
   if(stream == stdin)
     printf("|MBsh|%s> ", current_working_dir);
-  ssize_t c = getline(buffer, size, stream); //could lead to memory leaks TODO: implement a safe getline
+  ssize_t c = s_getline(buffer, size, stream); //could lead to memory leaks TODO: implement a safe getline
   (*buffer)[c-1] = '\0';
   return c;
 }
