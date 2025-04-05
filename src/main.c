@@ -2,7 +2,6 @@
 
 int main(int argc, char* argv[]){
   
-  size_t size = 100;
   char *buffer = malloc(size);
   FILE *stream = stdin;
   // char **args = (char **)malloc(sizeof(char*) * 100);
@@ -47,6 +46,7 @@ void process_input(char *buffer, size_t size, FILE* stream){
   int cmd_num, ret_val;
   char* cmd = NULL;
   char** args = NULL;
+  // char* 
   while(s != -1){
     cmd = strtok(strdup(buffer), " "); 
     args = parse_args(NULL, buffer);

@@ -2,6 +2,8 @@
 
 char* current_working_dir;
 int path_size = 100;
+char* buffer;
+size_t size = 100;
 
 int cd_(char* args[]);
 int exit_(char* args[]);
@@ -23,6 +25,7 @@ int cd_(char* args[]){
 }
 
 int exit_(char* args[]){
+  // clear_resources();
   exit(0);
   return 0;
 }

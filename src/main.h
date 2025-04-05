@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <sys/wait.h>
 #include "../utils/fileio.h"
-#include "../utils/mstrings.h"
+#include "../utils/mstring.h"
 
 struct internal_command{
   const char* cmd;
