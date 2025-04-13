@@ -43,12 +43,3 @@ size_t getlines(char * const buffer, const size_t n, FILE *f, size_t *const line
   if (lines) *lines += l-1;
   return c;
 }
-
-size_t s_getline(char** const buffer, size_t* const n, FILE* stream){
-  char* old_buffer = *buffer;
-  size_t c = getline(buffer, n, stream);
-  if (old_buffer && old_buffer != *buffer)
-    free(old_buffer);
-  return c;
-}
-
